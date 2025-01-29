@@ -7,6 +7,9 @@
       <li>
         <NuxtLink to="/more-info" class="text-sm hover:text-secondary-light">Más información</NuxtLink>
       </li>
+      <li>
+        <NuxtLink to="/filter" class="text-sm hover:text-secondary-light">Filter</NuxtLink>
+      </li>
     </ul>
   </nav>
 </template>
