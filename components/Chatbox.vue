@@ -8,159 +8,151 @@
     }"
     class="shadow-md rounded-md p-4 space-y-4"
   >
-    <div class="flex justify-between items-center">
-      <h2 :class="{ 'text-black': !isDarkMode, 'text-white': isDarkMode }">
-        Chat
-      </h2>
-      <button
-        @click="toggleDarkMode"
-        class="bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-4 rounded-md transition-colors"
-      >
-        {{ isDarkMode ? "Claro" : "Oscuro" }}
-      </button>
-    </div>
-    <div class="flex flex-col space-y-4">
-      <select
-        v-model="selectedPrompt"
+    <!-- Selector de tipo de contenido -->
+    <select
+      v-model="selectedPrompt"
+      :class="{
+        'border-primary-light': !isDarkMode,
+        'border-gray-600': isDarkMode,
+        'bg-white': !isDarkMode,
+        'bg-gray-700': isDarkMode,
+      }"
+      class="border rounded-md"
+    >
+      <option value="">Selecciona un tipo de contenido</option>
+      <option value="sinopsis">Sinopsis</option>
+      <option value="personaje">Personaje</option>
+      <option value="escena">Escena</option>
+      <option value="recomendacion">Recomendación</option>
+    </select>
+
+    <!-- Campos dinámicos según el tipo de contenido -->
+    <div v-if="selectedPrompt === 'sinopsis'">
+      <input
+        type="text"
+        v-model="sinopsisGenre"
+        placeholder="Género"
         :class="{
           'border-primary-light': !isDarkMode,
           'border-gray-600': isDarkMode,
           'bg-white': !isDarkMode,
           'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
         }"
-        class="border rounded-md"
-      >
-        <option value="">Selecciona un tipo de contenido</option>
-        <option value="sinopsis">Sinopsis</option>
-        <option value="personaje">Personaje</option>
-        <option value="escena">Escena</option>
-        <option value="recomendacion">Recomendación</option>
-      </select>
+        class="border rounded-md px-2 py-1"
+      />
+      <input
+        type="text"
+        v-model="sinopsisTheme"
+        placeholder="Tema"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+    </div>
 
-      <div v-if="selectedPrompt === 'sinopsis'">
-        <input
-          type="text"
-          v-model="sinopsisGenre"
-          placeholder="Género"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-        <input
-          type="text"
-          v-model="sinopsisTheme"
-          placeholder="Tema"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-      </div>
+    <div v-if="selectedPrompt === 'personaje'">
+      <input
+        type="text"
+        v-model="personajeArchetype"
+        placeholder="Arquetipo"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+    </div>
 
-      <div v-if="selectedPrompt === 'personaje'">
-        <input
-          type="text"
-          v-model="personajeArchetype"
-          placeholder="Arquetipo"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-      </div>
+    <div v-if="selectedPrompt === 'escena'">
+      <input
+        type="text"
+        v-model="escenaGenre"
+        placeholder="Género"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+      <input
+        type="text"
+        v-model="escenaSetting"
+        placeholder="Escenario"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+    </div>
 
-      <div v-if="selectedPrompt === 'escena'">
-        <input
-          type="text"
-          v-model="escenaGenre"
-          placeholder="Género"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-        <input
-          type="text"
-          v-model="escenaSetting"
-          placeholder="Escenario"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-      </div>
+    <div v-if="selectedPrompt === 'recomendacion'">
+      <input
+        type="text"
+        v-model="recomendacionGenre"
+        placeholder="Género"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+      <input
+        type="text"
+        v-model="recomendacionTheme"
+        placeholder="Tema"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+      <input
+        type="text"
+        v-model="recomendacionAuthor"
+        placeholder="Autor (opcional)"
+        :class="{
+          'border-primary-light': !isDarkMode,
+          'border-gray-600': isDarkMode,
+          'bg-white': !isDarkMode,
+          'bg-gray-700': isDarkMode,
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        }"
+        class="border rounded-md px-2 py-1"
+      />
+    </div>
 
-      <div v-if="selectedPrompt === 'recomendacion'">
-        <input
-          type="text"
-          v-model="recomendacionGenre"
-          placeholder="Género"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-        <input
-          type="text"
-          v-model="recomendacionTheme"
-          placeholder="Tema"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-        <input
-          type="text"
-          v-model="recomendacionAuthor"
-          placeholder="Autor (opcional)"
-          :class="{
-            'border-primary-light': !isDarkMode,
-            'border-gray-600': isDarkMode,
-            'bg-white': !isDarkMode,
-            'bg-gray-700': isDarkMode,
-            'text-black': !isDarkMode,
-            'text-white': isDarkMode,
-          }"
-          class="border rounded-md px-2 py-1"
-        />
-      </div>
-
+    <!-- Contenedor para el textarea y el botón -->
+    <div class="relative">
       <textarea
         v-model="message"
         :class="{
@@ -171,53 +163,55 @@
           'text-black': !isDarkMode,
           'text-white': isDarkMode,
         }"
-        class="w-full px-4 py-2 border rounded-md min-h-[100px]"
+        class="w-full px-4 py-2 border rounded-md min-h-[100px] pr-16"
         placeholder="Escribe tu mensaje..."
         disabled
       ></textarea>
-
+      <!-- Botón de enviar dentro del textarea -->
       <button
         @click="sendMessage"
         :disabled="isLoading || !isFormValid"
-        class="bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-6 rounded-md transition-colors disabled:opacity-50"
+        class="absolute right-2 bottom-2 bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-4 rounded-md transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {{ isLoading ? "Enviando..." : "Enviar" }}
+        <i v-if="!isLoading" class="fa-solid fa-arrow-right"></i>
       </button>
+    </div>
 
-      <div v-if="error" class="text-red-500 bg-red-50 p-2 rounded">
-        {{ error }}
-      </div>
+    <!-- Mensaje de error -->
+    <div v-if="error" class="text-red-500 bg-red-50 p-2 rounded">
+      {{ error }}
+    </div>
 
-      <!-- Historial de chat -->
-      <div class="chat-history overflow-y-auto max-h-[300px] space-y-3">
-        <div v-for="(item, index) in chatHistory" :key="index">
-          <!-- Mensaje del usuario -->
-          <div v-if="item.type === 'user'" class="user-message flex justify-end">
-            <div
-              :class="{
-                'bg-blue-100': !isDarkMode,
-                'bg-blue-600': isDarkMode,
-                'text-gray-800': !isDarkMode,
-                'text-white': isDarkMode,
-              }"
-              class="p-3 rounded-md max-w-[70%]"
-            >
-              {{ item.message }}
-            </div>
+    <!-- Historial de chat -->
+    <div class="chat-history overflow-y-auto max-h-[300px] space-y-3">
+      <div v-for="(item, index) in chatHistory" :key="index">
+        <!-- Mensaje del usuario -->
+        <div v-if="item.type === 'user'" class="user-message flex justify-end">
+          <div
+            :class="{
+              'bg-blue-100': !isDarkMode,
+              'bg-blue-600': isDarkMode,
+              'text-gray-800': !isDarkMode,
+              'text-white': isDarkMode,
+            }"
+            class="p-3 rounded-md max-w-[70%]"
+          >
+            {{ item.message }}
           </div>
-          <!-- Mensaje del bot -->
-          <div v-else class="bot-message flex justify-start">
-            <div
-              :class="{
-                'bg-gray-100': !isDarkMode,
-                'bg-gray-600': isDarkMode,
-                'text-gray-800': !isDarkMode,
-                'text-white': isDarkMode,
-              }"
-              class="p-3 rounded-md max-w-[70%]"
-            >
-              {{ item.message }}
-            </div>
+        </div>
+        <!-- Mensaje del bot -->
+        <div v-else class="bot-message flex justify-start">
+          <div
+            :class="{
+              'bg-gray-100': !isDarkMode,
+              'bg-gray-600': isDarkMode,
+              'text-gray-800': !isDarkMode,
+              'text-white': isDarkMode,
+            }"
+            class="p-3 rounded-md max-w-[70%]"
+          >
+            {{ item.message }}
           </div>
         </div>
       </div>
@@ -249,9 +243,9 @@ const message = ref('');
 const response = ref('');
 const error = ref('');
 const isLoading = ref(false);
-const chatHistory = ref([]); // Nuevo: Historial de chat
+const chatHistory = ref([]);
 
-// Valida si los campos estan completos
+// Valida si los campos están completos
 const isFormValid = computed(() => {
   if (selectedPrompt.value === 'sinopsis') {
     return sinopsisGenre.value.trim() !== '' && sinopsisTheme.value.trim() !== '';
@@ -268,8 +262,6 @@ const isFormValid = computed(() => {
 const sendMessage = async () => {
   // Resetear estados
   error.value = '';
-  //response.value = '';
-  //message.value = '';
 
   // Validación general
   if (!isFormValid.value) {
@@ -313,8 +305,12 @@ const sendMessage = async () => {
         throw new Error('Tipo de prompt no válido');
     }
 
-    message.value = prompt; // Actualiza el campo de texto
-    // Añadir un contexto o sistema de instrucciones
+    // Eliminar comillas dobles y saltos de línea del medio
+    message.value = prompt.replace(/"/g, '').replace(/\n{2,}/g, '\n'); 
+    //remplaza las comillas dobles por nada, y reemplaza los saltos de linea que se repitan por uno solo
+    // Actualiza el campo de texto
+
+
     const chat = model.startChat({
       history: [],
       generationConfig: {
@@ -328,6 +324,7 @@ const sendMessage = async () => {
     const result = await chat.sendMessage(prompt);
 
     if (result) {
+      // Asigna directamente la respuesta
       response.value = result.response.text();
       // Agregar respuesta del bot al historial
       chatHistory.value.push({ type: 'bot', message: response.value });

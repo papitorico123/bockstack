@@ -1,15 +1,79 @@
 <template>
-  <nav class="bg-primary-dark text-white p-4">
-    <ul class="flex justify-between items-center">
-      <li>
-        <NuxtLink to="/" class="font-bold text-lg hover:text-secondary-light">Inicio</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/more-info" class="text-sm hover:text-secondary-light">Más información</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/filter" class="text-sm hover:text-secondary-light">Filter</NuxtLink>
-      </li>
-    </ul>
-  </nav>
+  <div class="relative">
+    <!-- Navbar -->
+    <div
+      :class="{
+        'bg-white': !isDarkMode,
+        'bg-gray-800': isDarkMode,
+        'text-gray-800': !isDarkMode,
+        'text-white': isDarkMode,
+      }"
+      class="fixed top-0 left-0 h-full w-16 hover:w-64 transition-all duration-300 overflow-hidden shadow-md z-50"
+    >
+      <div class="flex flex-col items-center space-y-6 py-4">
+        <!-- Botón de modo oscuro/claro -->
+        <button
+          @click="toggleDarkMode"
+          class="bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-4 rounded-md transition-colors w-full text-center"
+        >
+          {{ isDarkMode ? "Modo Claro" : "Modo Oscuro" }}
+        </button>
+
+        <!-- Opciones del navbar -->
+        <nav class="flex flex-col items-start space-y-4 w-full px-4">
+          <a href="/" class="hover:text-secondary transition-colors">
+            Inicio
+          </a>
+          <a href="/chat" class="hover:text-secondary transition-colors">
+            Chat
+          </a>
+          <a href="/FilterTest" class="hover:text-secondary transition-colors">
+            Test
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Contenido principal (que cambia según la página) -->
+    <div
+      :class="{
+        'bg-gray-200': !isDarkMode,
+        'bg-gray-900': isDarkMode,
+        'text-gray-900': !isDarkMode,
+        'text-white': isDarkMode,
+      }"
+      class="ml-16 transition-colors duration-300 p-4"
+    >
+      <slot></slot> <!-- Aquí se inyectará el contenido de cada página -->
+    </div>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      isDarkMode: false,
+    };
+  },
+  methods: {
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      document.documentElement.classList.toggle("dark", this.isDarkMode);
+    },
+  },
+};
+</script>
+
+<style>
+/* Colores secundarios para los botones y links */
+.bg-secondary {
+  background-color: #2563eb; /* Azul */
+}
+.bg-secondary-dark {
+  background-color: #1d4ed8; /* Azul oscuro */
+}
+.hover\:text-secondary:hover {
+  color: #2563eb;
+}
+</style>
