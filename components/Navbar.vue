@@ -8,7 +8,7 @@
         'text-gray-800': !isDarkMode,
         'text-white': isDarkMode,
       }"
-      class="fixed top-0 left-0 h-full w-16 hover:w-64 transition-all duration-300 overflow-hidden shadow-md z-50"
+      class="fixed top-0 left-0 h-full w-16 hover:w-64 transition-all duration-300 overflow-hidden shadow-md z-50 flex flex-col justify-between"
     >
       <div class="flex flex-col items-center space-y-6 py-4">
         <!-- Botón de modo oscuro/claro -->
@@ -25,13 +25,15 @@
             Inicio
           </a>
           <a href="/chat" class="hover:text-secondary transition-colors">
-            Chat
+            <h7> Chat </h7> 
           </a>
           <a href="/FilterTest" class="hover:text-secondary transition-colors">
             Test
           </a>
         </nav>
       </div>
+      <!-- Imagen al fondo del navbar -->
+      <img src="public/images/logo.png"  class="w-full object-cover" />
     </div>
 
     <!-- Contenido principal (que cambia según la página) -->
