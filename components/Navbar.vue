@@ -13,7 +13,7 @@
       <div class="flex flex-col items-center space-y-6 py-4">
         <!-- Botón de modo oscuro/claro -->
         <button
-          @click="toggleDarkMode"
+          @click="$emit('toggle-dark-mode')"
           class="bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-4 rounded-md transition-colors w-full text-center"
         >
           {{ isDarkMode ? "Modo Claro" : "Modo Oscuro" }}
@@ -51,15 +51,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isDarkMode: false,
-    };
-  },
-  methods: {
-    toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode;
-      document.documentElement.classList.toggle("dark", this.isDarkMode);
+  props: {
+    isDarkMode: {
+      type: Boolean,
+      required: true,
     },
   },
 };

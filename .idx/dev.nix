@@ -1,53 +1,58 @@
-# To learn more about how to use Nix to configure your environment
-# see: https://developers.google.com/idx/guides/customize-idx-env
-{ pkgs, ... }: {
-  # Which nixpkgs channel to use.
-  channel = "stable-24.05"; # or "unstable"
 
-  # Use https://search.nixos.org/packages to find packages
+# Para aprender más sobre cómo usar Nix para configurar tu entorno
+# consulta: https://developers.google.com/idx/guides/customize-idx-env
+{ pkgs, ... }: {
+  # Qué canal de nixpkgs usar.
+  channel = "stable-24.05"; # o "unstable"
+
+  # Usa https://search.nixos.org/packages para encontrar paquetes
   packages = [
-    # pkgs.go
-    # pkgs.python311
-    # pkgs.python311Packages.pip
-    # pkgs.nodejs_20
-    # pkgs.nodePackages.nodemon
+    # pkgs.go # Comentado porque no está en uso
+    # pkgs.python311 # Comentado porque no está en uso
+    # pkgs.python311Packages.pip # Comentado porque no está en uso
+    pkgs.nodejs
+    pkgs.nodePackages.nodemon #opcional - útil para desarrollo
   ];
 
-  # Sets environment variables in the workspace
-  env = {};
+  # Establece variables de entorno en el workspace
+  env = {
+    NUXT_GEMINI_API_KEY = "AIzaSyDaMwH_0cpS8P0o2EcqsmRlPHs9689_lJk"; # Reemplaza con tu clave API real
+  };
+
   idx = {
-    # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
+    # Busca las extensiones que quieras en https://open-vsx.org/ y usa "publisher.id"
     extensions = [
-      # "vscodevim.vim"
+      # "vscodevim.vim" # Ejemplo comentado, descomenta si lo necesitas
     ];
 
-    # Enable previews
+    # Habilitar previsualizaciones
     previews = {
       enable = true;
       previews = {
-        # web = {
-        #   # Example: run "npm run dev" with PORT set to IDX's defined port for previews,
-        #   # and show it in IDX's web preview panel
-        #   command = ["npm" "run" "dev"];
-        #   manager = "web";
-        #   env = {
-        #     # Environment variables to set for your server
-        #     PORT = "$PORT";
-        #   };
-        # };
+        web = {
+          # Ejemplo: ejecuta "npm run dev" con PORT establecido
+          # y muéstralo en el panel de previsualización web de IDX
+          command = [ "npm" "run" "dev" "--" "--port" "$PORT" ];
+          manager = "web";
+
+          env = {
+            # Variables de entorno para establecer para tu servidor
+            PORT = "$PORT";
+          };
+        };
       };
     };
 
-    # Workspace lifecycle hooks
+    # Hooks (eventos) del ciclo de vida del workspace
     workspace = {
-      # Runs when a workspace is first created
+      # Se ejecuta cuando se crea un workspace por primera vez
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
+        # Ejemplo: instala las dependencias JS desde NPM
+        npm-install = "npm install";
       };
-      # Runs when the workspace is (re)started
+      # Se ejecuta cuando el workspace se (re)inicia
       onStart = {
-        # Example: start a background task to watch and re-build backend code
+        # Ejemplo: inicia una tarea en segundo plano para observar y reconstruir el código backend
         # watch-backend = "npm run watch-backend";
       };
     };

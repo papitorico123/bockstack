@@ -171,7 +171,7 @@
       <button
         @click="sendMessage"
         :disabled="isLoading || !isFormValid"
-        class="absolute right-2 bottom-2 bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-4 rounded-md transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        class="absolute right-2 bottom-2 bg-secondary hover:bg-secondary-dark text-white font-semibold py-2 px-4 rounded-md transition-colors disabled:opacity-50 flex items-center justify-center"
       >
         {{ isLoading ? "Enviando..." : "Enviar" }}
         <i v-if="!isLoading" class="fa-solid fa-arrow-right"></i>
@@ -306,10 +306,9 @@ const sendMessage = async () => {
     }
 
     // Eliminar comillas dobles y saltos de línea del medio
-    message.value = prompt.replace(/"/g, '').replace(/\n{2,}/g, '\n'); 
+    message.value = prompt.replace(/\"/g, '').replace(/\n{2,}/g, '\n'); 
     //remplaza las comillas dobles por nada, y reemplaza los saltos de linea que se repitan por uno solo
     // Actualiza el campo de texto
-
 
     const chat = model.startChat({
       history: [],
