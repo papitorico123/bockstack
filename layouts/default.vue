@@ -13,11 +13,10 @@
   </template>
   
   <script setup>
-import { useDarkMode } from '@/composables/useDarkMode';
+import useDarkMode from '@/composables/useDarkMode';
 
 
 
   
   const { isDarkMode } = useDarkMode();
   </script>
-  

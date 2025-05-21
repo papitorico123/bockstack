@@ -1,14 +1,13 @@
 import { ref } from 'vue';
+  
 
 const isDarkMode = ref(false);
 
-export const toggleDarkMode = () => {
+function toggleDarkMode() {
   isDarkMode.value = !isDarkMode.value;
-};
+  document.documentElement.classList.toggle('dark', isDarkMode.value);
+}
 
-export const useDarkMode = () => {
-  return {
-    isDarkMode,
-    toggleDarkMode
-  };
-};
+export default function useDarkMode() {
+  return { isDarkMode, toggleDarkMode };
+}

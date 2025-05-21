@@ -1,4 +1,25 @@
+<script setup>
+import usePrompts from '@/utils/Prompts.js';
 
+const {
+  selectedPrompt,
+  sinopsisGenre,
+  sinopsisTheme,
+  personajeArchetype,
+  escenaGenre,
+  escenaSetting,
+  recomendacionGenre,
+  recomendacionTheme,
+  recomendacionAuthor,
+  message,
+  response,
+  isLoading,
+  chatHistory,
+  error,
+  isFormValid,
+  sendMessage
+} = usePrompts();
+</script>
 
 <template>
   <div

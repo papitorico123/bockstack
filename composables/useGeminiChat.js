@@ -1,7 +1,8 @@
 import { ref } from 'vue';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export function useGeminiChat() {
+
+export default function useGeminiChat() {
   const response = ref('');
   const error = ref('');
   const isLoading = ref(false);

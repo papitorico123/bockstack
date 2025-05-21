@@ -53,12 +53,11 @@
 
 <script>
 export default {
+  name: 'Navbar',
   props: {
-    isDarkMode: {
-      type: Boolean,
-      required: true,
-    },
+    isDarkMode: Boolean
   },
+  emits: ['toggle-dark-mode']
 };
 </script>
 
