@@ -1,3 +1,5 @@
+
+
 <template>
   <div
     :class="{
@@ -237,121 +239,6 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { bookPrompts } from '@/utils/bookPrompts';
-import { useDarkMode } from '@/composables/useDarkMode';
-
-// Variables para el tema
-const { isDarkMode, toggleDarkMode } = useDarkMode();
-
-// Variables para los prompts
-const selectedPrompt = ref('');
-const sinopsisGenre = ref('');
-const sinopsisTheme = ref('');
-const personajeArchetype = ref('');
-const escenaGenre = ref('');
-const escenaSetting = ref('');
-const recomendacionGenre = ref('');
-const recomendacionTheme = ref('');
-const recomendacionAuthor = ref('');
-
-const message = ref('');
-const response = ref('');
-const error = ref('');
-const isLoading = ref(false);
-const chatHistory = ref([]);
-
-// Valida si los campos están completos
-const isFormValid = computed(() => {
-  if (selectedPrompt.value === 'sinopsis') {
-    return sinopsisGenre.value.trim() !== '' && sinopsisTheme.value.trim() !== '';
-  } else if (selectedPrompt.value === 'personaje') {
-    return personajeArchetype.value.trim() !== '';
-  } else if (selectedPrompt.value === 'escena') {
-    return escenaGenre.value.trim() !== '' && escenaSetting.value.trim() !== '';
-  } else if (selectedPrompt.value === 'recomendacion') {
-    return recomendacionGenre.value.trim() !== '' && recomendacionTheme.value.trim() !== '';
-  }
-  return false;
-});
-
-const sendMessage = async () => {
-  // Resetear estados
-  error.value = '';
-
-  // Validación general
-  if (!isFormValid.value) {
-    error.value = 'Completa todos los campos requeridos';
-    return;
-  }
-
-  try {
-    // Activar estado de carga
-    isLoading.value = true;
-
-    const genAI = new GoogleGenerativeAI(useRuntimeConfig().public.geminiApiKey);
-
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-pro',
-    });
-
-    // Construir el prompt dinámicamente
-    let prompt = '';
-    switch (selectedPrompt.value) {
-      case 'sinopsis':
-        prompt = bookPrompts.sinopsis(
-          sinopsisGenre.value,
-          sinopsisTheme.value
-        );
-        break;
-      case 'personaje':
-        prompt = bookPrompts.personaje(personajeArchetype.value);
-        break;
-      case 'escena':
-        prompt = bookPrompts.escena(escenaGenre.value, escenaSetting.value);
-        break;
-      case 'recomendacion':
-        prompt = bookPrompts.recomendacion(
-          recomendacionGenre.value,
-          recomendacionTheme.value,
-          recomendacionAuthor.value
-        );
-        break;
-      default:
-        throw new Error('Tipo de prompt no válido');
-    }
-
-    // Eliminar comillas dobles y saltos de línea del medio
-    message.value = prompt.replace(/\"/g, '').replace(/\n{2,}/g, '\n');
-
-    const chat = model.startChat({
-      history: [],
-      generationConfig: {
-        maxOutputTokens: 500,
-      },
-    });
-
-    // Agregar mensaje del usuario al historial
-    chatHistory.value.push({ type: 'user', message: prompt, timestamp: new Date().toLocaleTimeString() });
-
-    const result = await chat.sendMessage(prompt);
-
-    if (result) {
-      response.value = result.response.text();
-      chatHistory.value.push({ type: 'bot', message: response.value, timestamp: new Date().toLocaleTimeString() });
-    } else {
-      throw new Error('No se pudo obtener respuesta');
-    }
-  } catch (err) {
-    console.error('Error detallado:', err);
-    error.value = `Error: ${err.message || 'Problema de conexión'}`;
-  } finally {
-    isLoading.value = false;
-  }
-};
-</script>
 
 <style scoped>
 .chat-history {
